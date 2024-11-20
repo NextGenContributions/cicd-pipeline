@@ -1,0 +1,27 @@
+name: Tests and checks
+
+on:
+  workflow_call:
+    inputs:
+      project_name:
+        description: 'The name of the project'
+        required: true
+        type: string
+
+jobs:
+  tests:
+    name: Run tests and checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ github.event.inputs.project_name }} .
+
+      - name: Run tests
+        run: |
+          docker run --volume $(pwd):/app --workdir /app --rm ${{ github.event.inputs.project_name }} nox -s noop
+
