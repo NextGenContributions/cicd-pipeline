@@ -28,8 +28,7 @@ jobs:
     continue-on-error: true
 
     outputs:
-      released: 
-        value: ${{ steps.release.outputs.released }}
+      released: ${{ steps.release.outputs.released }}
 
     steps:
       # Note: we need to checkout the repository at the workflow sha in case during the workflow
