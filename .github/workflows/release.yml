@@ -17,7 +17,7 @@ on:
 jobs:
   release:
     # If main branch is updated, we want to release the package.
-    if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.inputs.release_branch)
+    if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', inputs.release_branch)
     concurrency: release
     runs-on: ubuntu-latest
 

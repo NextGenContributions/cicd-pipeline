@@ -19,9 +19,9 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ github.event.inputs.project_name }} .
+          docker build -t ${{ inputs.project_name }} .
 
       - name: Run tests
         run: |
-          docker run --volume $(pwd):/app --workdir /app --rm ${{ github.event.inputs.project_name }} nox -s noop
+          docker run --volume $(pwd):/app --workdir /app --rm ${{ inputs.project_name }} nox -s noop
 

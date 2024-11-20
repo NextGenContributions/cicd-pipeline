@@ -15,7 +15,7 @@ jobs:
 
     environment:
       name: testpypi
-      url: ${{ format('https://test.pypi.org/p/{0}', github.event.inputs.project_name) }}
+      url: ${{ format('https://test.pypi.org/p/{0}', inputs.project_name) }}
 
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
