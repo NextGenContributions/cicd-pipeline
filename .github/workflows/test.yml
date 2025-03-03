@@ -44,3 +44,6 @@ jobs:
             -Dsonar.python.coverage.reportPaths=coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
