@@ -40,7 +40,7 @@ jobs:
         with:
           args: >
             -Dsonar.organization=nextgencontributions
-            -Dsonar.projectKey=django2pydantic
+            -Dsonar.projectKey=NextGenContributions_django2pydantic
             -Dsonar.python.coverage.reportPaths=coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
