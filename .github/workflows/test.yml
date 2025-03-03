@@ -10,6 +10,8 @@ on:
     secrets:
       CODECOV_TOKEN:
         required: true
+      SONAR_TOKEN:
+        required: true
 
 jobs:
   tests:
@@ -32,3 +34,11 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        with:
+          args: >
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
