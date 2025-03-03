@@ -23,5 +23,4 @@ jobs:
 
       - name: Run tests
         run: |
-          docker run --volume $(pwd):/app --workdir /app --rm ${{ inputs.project_name }} nox -s noop
-
+          docker run --volume $(pwd):/app --workdir /app --rm ${{ inputs.project_name }} nox -s tests
