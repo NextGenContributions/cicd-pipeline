@@ -39,6 +39,8 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v4
         with:
           args: >
+            -Dsonar.organization=nextgencontributions
+            -Dsonar.projectKey=NextGenContributions_${{ inputs.project_name }}
             -Dsonar.python.coverage.reportPaths=coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
