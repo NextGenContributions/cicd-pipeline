@@ -40,6 +40,7 @@ jobs:
           echo $GITHUB_WORKSPACE
           ls -la ${{ github.workspace }}
           ls -la $GITHUB_WORKSPACE
+          pwd
 
       - name: Upload coverage reports to Code Climate
         uses: paambaati/codeclimate-action@v9.0.0
@@ -47,7 +48,8 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           debug: true
-          prefix: ${{ format('{0}/{1}', github.workspace, inputs.project_name) }}
+          # prefix: ${{ format('{0}/{1}', github.workspace, inputs.project_name) }}
+          prefix: ${{ github.workspace }}
           coverageLocations: |
             ${{github.workspace}}/coverage.xml:coverage.py
 
