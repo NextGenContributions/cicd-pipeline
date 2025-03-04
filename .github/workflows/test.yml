@@ -45,7 +45,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: SonarQube Scan and upload coverage reports
-        uses: SonarSource/sonarqube-scan-action@v4
+        uses: SonarSource/sonarqube-scan-action@v5
         with:
           args: >
             -Dsonar.organization=nextgencontributions
