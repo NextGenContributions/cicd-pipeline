@@ -1,0 +1,13 @@
+name: 'Setup Coverage Reports'
+description: 'Checkout repository and download coverage artifacts'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download coverage artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: coverage-reports
