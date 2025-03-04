@@ -43,30 +43,38 @@ jobs:
             coverage.lcov
           retention-days: 1
 
-  codeclimate:
+  # Coverage reports group
+  coverage-reports:
+    strategy:
+      matrix:
+        report: [codeclimate, codecov, sonarqube, coveralls]
+    name: Upload Coverage Reports
     needs: tests
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/setup-coverage
-      - uses: paambaati/codeclimate-action@v9.0.0
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download coverage artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-reports
+      
+      # CodeClimate
+      - if: matrix.report == 'codeclimate'
+        uses: paambaati/codeclimate-action@v9.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-
-  codecov:
-    needs: tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: ./.github/actions/setup-coverage
-      - uses: codecov/codecov-action@v5
+      
+      # Codecov
+      - if: matrix.report == 'codecov'
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-
-  sonarqube:
-    needs: tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: ./.github/actions/setup-coverage
-      - uses: SonarSource/sonarqube-scan-action@v5
+      
+      # SonarQube
+      - if: matrix.report == 'sonarqube'
+        uses: SonarSource/sonarqube-scan-action@v5
         with:
           args: >
             -Dsonar.organization=nextgencontributions
@@ -74,12 +82,9 @@ jobs:
             -Dsonar.python.coverage.reportPaths=coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-  coveralls:
-    needs: tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: ./.github/actions/setup-coverage
-      - uses: coverallsapp/github-action@v2
+      
+      # Coveralls
+      - if: matrix.report == 'coveralls'
+        uses: coverallsapp/github-action@v2
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
