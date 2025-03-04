@@ -18,6 +18,8 @@ on:
         required: true
       QLTY_COVERAGE_TOKEN:
         required: true
+      TRUNK_TOKEN:
+        required: true
 
 jobs:
   tests:
@@ -55,10 +57,12 @@ jobs:
           - qltysh
           - codecov
           - codecov-test
+          - trunk-test
           - sonarqube
           - coveralls
     name: Upload Coverage Reports and Test Results
     needs: tests
+    if: always()  # This ensures the job runs even if tests fail
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -90,10 +94,19 @@ jobs:
       
       # Codecov test analysis
       - name: Upload test results to Codecov for analysis
-        if: matrix.report == 'codecov-test' && ${{ !cancelled() }}
+        if: matrix.report == 'codecov-test'
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+      # Trunk.io test analysis
+      - name: Upload test results to Trunk.io
+        if: matrix.report == 'trunk-test'
+        uses: trunk-io/analytics-uploader@v1
+        with:
+          junit-paths: "junit.xml"        
+          org-slug: nextgencontributions
+          token: ${{ secrets.TRUNK_TOKEN }}
       
       # SonarQube
       - if: matrix.report == 'sonarqube'
