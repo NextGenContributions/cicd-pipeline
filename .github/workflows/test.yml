@@ -34,29 +34,30 @@ jobs:
       - name: Run tests
         run: |
           docker run --volume $(pwd):/app --workdir /app --rm ${{ inputs.project_name }} nox -s tests
-      
-      - name: Upload test results to Codecov for analysis
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload coverage artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-reports
+          name: coverage-reports-${{ github.run_id }}
           path: |
             .coverage
             coverage.xml
             lcov.info
+            junit.xml
           retention-days: 1
 
-  # Coverage reports group
+  # Coverage reports tasks
   coverage-reports:
     strategy:
       matrix:
-        report: [codeclimate, qltysh, codecov, sonarqube, coveralls]
-    name: Upload Coverage Reports
+        report:
+          - codeclimate
+          - qltysh
+          - codecov
+          - codecov-test
+          - sonarqube
+          - coveralls
+    name: Upload Coverage Reports and Test Results
     needs: tests
     runs-on: ubuntu-latest
     steps:
@@ -66,7 +67,7 @@ jobs:
       - name: Download coverage artifacts
         uses: actions/download-artifact@v4
         with:
-          name: coverage-reports
+          name: coverage-reports-${{ github.run_id }}
       
       # CodeClimate
       - if: matrix.report == 'codeclimate'
@@ -84,6 +85,13 @@ jobs:
       # Codecov
       - if: matrix.report == 'codecov'
         uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+      
+      # Codecov test analysis
+      - name: Upload test results to Codecov for analysis
+        if: matrix.report == 'codecov-test' && ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       
