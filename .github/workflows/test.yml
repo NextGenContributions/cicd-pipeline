@@ -34,13 +34,20 @@ jobs:
         run: |
           docker run --volume $(pwd):/app --workdir /app --rm ${{ inputs.project_name }} nox -s tests
 
+      - name: Debug workspace files
+        run: |
+          echo ${{ github.workspace }}
+          echo $GITHUB_WORKSPACE
+          ls -la ${{ github.workspace }}
+          ls -la $GITHUB_WORKSPACE
+
       - name: Upload coverage reports to Code Climate
         uses: paambaati/codeclimate-action@v9.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageLocations: |
-            ${{github.workspace}}/.coverage:coverage.py
+            ${{github.workspace}}/coverage.xml:coverage.py
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
