@@ -46,6 +46,8 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
+          debug: true
+          prefix: ${{ format('{0}/{1}', github.workspace, inputs.project_name) }}
           coverageLocations: |
             ${{github.workspace}}/coverage.xml:coverage.py
 
