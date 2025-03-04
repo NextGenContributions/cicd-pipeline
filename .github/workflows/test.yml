@@ -48,7 +48,7 @@ jobs:
           path: |
             .coverage
             coverage.xml
-            coverage.lcov
+            lcov.info
           retention-days: 1
 
   # Coverage reports group
@@ -79,7 +79,7 @@ jobs:
         uses: qltysh/qlty-action/coverage@main
         with:
           coverage-token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
-          files: coverage.lcov
+          files: lcov.info
       
       # Codecov
       - if: matrix.report == 'codecov'
