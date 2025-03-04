@@ -19,9 +19,8 @@ on:
 
 jobs:
   tests:
-    name: Run tests and checks
+    name: Run tests
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,18 +33,40 @@ jobs:
         run: |
           docker run --volume $(pwd):/app --workdir /app --rm ${{ inputs.project_name }} nox -s tests
 
-      - name: Upload coverage reports to Code Climate
-        uses: paambaati/codeclimate-action@v9.0.0
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            .coverage
+            coverage.xml
+            coverage.lcov
+          retention-days: 1
+
+  codeclimate:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-coverage
+      - uses: paambaati/codeclimate-action@v9.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
+  codecov:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-coverage
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: SonarQube Scan and upload coverage reports
-        uses: SonarSource/sonarqube-scan-action@v5
+  sonarqube:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-coverage
+      - uses: SonarSource/sonarqube-scan-action@v5
         with:
           args: >
             -Dsonar.organization=nextgencontributions
@@ -54,7 +75,11 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Upload coverage reports to Coveralls
-        uses: coverallsapp/github-action@v2
+  coveralls:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-coverage
+      - uses: coverallsapp/github-action@v2
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
