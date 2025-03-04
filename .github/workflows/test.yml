@@ -32,6 +32,12 @@ jobs:
       - name: Run tests
         run: |
           docker run --volume $(pwd):/app --workdir /app --rm ${{ inputs.project_name }} nox -s tests
+      
+      - name: Upload test results to Codecov for analysis
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload coverage artifacts
         uses: actions/upload-artifact@v4
