@@ -71,6 +71,7 @@ jobs:
         with:
           post-annotations: true
           trunk-token: ${{ secrets.TRUNK_TOKEN }}
+          check-mode: all
 
 
   # Coverage reports tasks
