@@ -28,6 +28,11 @@ jobs:
 
       - name: Install the project
         run: uv sync --all-extras --dev
+    
+      - name: Output env and paths
+        run: |
+          env
+          echo "$PATH"
 
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
