@@ -2,6 +2,11 @@ name: Trunk check
 
 on:
   workflow_call:
+    inputs:
+      check_mode:
+        description: 'Trunk check-mode'
+        required: false
+        type: string
     secrets:
       TRUNK_TOKEN:
         required: true
@@ -29,3 +34,4 @@ jobs:
         with:
           post-annotations: true
           trunk-token: ${{ secrets.TRUNK_TOKEN }}
+          check-mode: ${{ inputs.check_mode }}
