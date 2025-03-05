@@ -48,6 +48,31 @@ jobs:
             junit.xml
           retention-days: 1
 
+
+  trunk-code-quality:
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write # For trunk to post annotations
+      contents: read # For repo checkout
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install the project
+        run: uv sync --all-extras --dev
+
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@v1
+        with:
+          post-annotations: true
+          trunk-token: ${{ secrets.TRUNK_TOKEN }}
+
+
   # Coverage reports tasks
   coverage-reports:
     strategy:
