@@ -17,6 +17,8 @@ jobs:
     permissions:
       checks: write # For trunk to post annotations
       contents: read # For repo checkout
+    env:
+        UV_SYSTEM_PYTHON: 1
     steps:
       - uses: actions/checkout@v4
 
