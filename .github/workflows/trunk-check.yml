@@ -17,11 +17,10 @@ jobs:
     permissions:
       checks: write # For trunk to post annotations
       contents: read # For repo checkout
-    env:
-        UV_LINK_MODE: copy
-        UV_SYSTEM_PYTHON: 1
-        UV_BREAK_SYSTEM_PACKAGES: 1
-        # UV_PROJECT_ENVIRONMENT: /usr/local
+    # env:
+        # UV_LINK_MODE: copy
+        # UV_SYSTEM_PYTHON: 1
+        # UV_BREAK_SYSTEM_PACKAGES: 1
     steps:
       - uses: actions/checkout@v4
 
@@ -34,7 +33,7 @@ jobs:
           python-version-file: "pyproject.toml"
 
       - name: Install the project
-        run: uv sync --all-extras --dev --frozen --no-install-project
+        run: UV_PROJECT_ENVIRONMENT=$pythonLocation uv sync --all-extras --dev --frozen --no-install-project
     
       - name: Output env and paths
         run: |
