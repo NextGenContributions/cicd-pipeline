@@ -17,10 +17,6 @@ jobs:
     permissions:
       checks: write # For trunk to post annotations
       contents: read # For repo checkout
-    # env:
-        # UV_LINK_MODE: copy
-        # UV_SYSTEM_PYTHON: 1
-        # UV_BREAK_SYSTEM_PACKAGES: 1
     steps:
       - uses: actions/checkout@v4
 
@@ -34,12 +30,6 @@ jobs:
 
       - name: Install the project
         run: UV_PROJECT_ENVIRONMENT=$pythonLocation uv sync --all-extras --dev --frozen --no-install-project
-    
-      - name: Output env and paths
-        run: |
-          env
-          echo "$PATH"
-          mypy --version
 
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
