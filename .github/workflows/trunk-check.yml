@@ -33,6 +33,7 @@ jobs:
         run: |
           env
           echo "$PATH"
+          mypy --version
 
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
