@@ -21,7 +21,7 @@ jobs:
         UV_LINK_MODE: copy
         UV_SYSTEM_PYTHON: 1
         UV_BREAK_SYSTEM_PACKAGES: 1
-        UV_PROJECT_ENVIRONMENT: /usr/local
+        # UV_PROJECT_ENVIRONMENT: /usr/local
     steps:
       - uses: actions/checkout@v4
 
