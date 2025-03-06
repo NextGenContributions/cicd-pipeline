@@ -19,8 +19,8 @@ jobs:
       contents: read # For repo checkout
     env:
         UV_LINK_MODE: copy
-        UV_SYSTEM_PYTHON: true
-        UV_BREAK_SYSTEM_PACKAGES: true
+        UV_SYSTEM_PYTHON: 1
+        UV_BREAK_SYSTEM_PACKAGES: 1
         UV_PROJECT_ENVIRONMENT: /usr/local
     steps:
       - uses: actions/checkout@v4
@@ -28,8 +28,10 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
-      - name: Set up Python
-        run: uv python install
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
 
       - name: Install the project
         run: uv sync --all-extras --dev --frozen --no-install-project
