@@ -11,14 +11,14 @@ on:
       TRUNK_TOKEN:
         required: true
 
-permissions: read-all
+permissions: write-all
 
 jobs:
   trunk-code-quality:
     runs-on: ubuntu-latest
-    permissions:
-      checks: write # For trunk to post annotations
-      contents: read # For repo checkout
+    # permissions:
+    #   checks: write # For trunk to post annotations
+    #   contents: read # For repo checkout
     steps:
       - uses: actions/checkout@v4
 
