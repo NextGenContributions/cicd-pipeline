@@ -11,14 +11,12 @@ on:
       TRUNK_TOKEN:
         required: true
 
-permissions: write-all
-
 jobs:
   trunk-code-quality:
     runs-on: ubuntu-latest
-    # permissions:
-    #   checks: write # For trunk to post annotations
-    #   contents: read # For repo checkout
+    permissions:
+      checks: write # For trunk to post annotations
+      contents: read # For repo checkout
     steps:
       - uses: actions/checkout@v4
 
@@ -36,6 +34,5 @@ jobs:
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
         with:
-          post-annotations: true
           trunk-token: ${{ secrets.TRUNK_TOKEN }}
           check-mode: ${{ inputs.check_mode }}
