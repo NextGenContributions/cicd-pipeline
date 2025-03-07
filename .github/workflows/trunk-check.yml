@@ -15,6 +15,7 @@ jobs:
   trunk-code-quality:
     runs-on: ubuntu-latest
     permissions:
+      actions: read
       checks: write # For trunk to post annotations
       contents: read # For repo checkout
     steps:
