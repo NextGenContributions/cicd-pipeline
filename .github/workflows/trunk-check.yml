@@ -4,7 +4,11 @@ on:
   workflow_call:
     inputs:
       check_mode:
-        description: 'Trunk check-mode'
+        description: Trunk check-mode
+        required: false
+        type: string
+      arguments:
+        description: Trunk extra arguments
         required: false
         type: string
     secrets:
@@ -36,3 +40,4 @@ jobs:
         with:
           trunk-token: ${{ secrets.TRUNK_TOKEN }}
           check-mode: ${{ inputs.check_mode }}
+          arguments: ${{ inputs.arguments }}
