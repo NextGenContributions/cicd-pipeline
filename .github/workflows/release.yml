@@ -77,7 +77,7 @@ jobs:
           name: python-package-distributions
 
       - name: Publish | Upload to GitHub Release Assets
-        uses: python-semantic-release/publish-action@v9.14.0
+        uses: python-semantic-release/publish-action@v9.21.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.release.outputs.tag }}
