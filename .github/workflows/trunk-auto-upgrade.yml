@@ -7,6 +7,7 @@ on:
 permissions:
     contents: write # For trunk to create PRs
     pull-requests: write # For trunk to create PRs
+    issues: write # For trunk to create labels
 
 jobs:
   trunk_upgrade:
