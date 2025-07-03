@@ -102,7 +102,7 @@ jobs:
       # Trunk.io test analysis
       - name: Upload test results to Trunk.io
         if: matrix.report == 'trunk-test'
-        uses: trunk-io/analytics-uploader@v1
+        uses: trunk-io/analytics-uploader@v2
         with:
           junit-paths: "junit.xml"        
           org-slug: nextgencontributions
