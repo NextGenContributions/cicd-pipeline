@@ -14,8 +14,6 @@ on:
         required: true
       COVERALLS_REPO_TOKEN:
         required: true
-      CC_TEST_REPORTER_ID:
-        required: true
       QLTY_COVERAGE_TOKEN:
         required: true
       TRUNK_TOKEN:
@@ -53,7 +51,6 @@ jobs:
     strategy:
       matrix:
         report:
-          - codeclimate
           - qltysh
           - codecov
           - codecov-test
@@ -73,12 +70,6 @@ jobs:
         with:
           name: coverage-reports-${{ github.run_id }}
       
-      # CodeClimate
-      - if: matrix.report == 'codeclimate'
-        uses: paambaati/codeclimate-action@v9.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-
       # Qlty.sh
       - if: matrix.report == 'qltysh'
         uses: qltysh/qlty-action/coverage@main
