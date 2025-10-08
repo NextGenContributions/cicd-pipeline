@@ -32,8 +32,15 @@ jobs:
         with:
           python-version-file: "pyproject.toml"
 
-      - name: Install the project
-        run: UV_PROJECT_ENVIRONMENT=$pythonLocation uv sync --all-extras --dev --frozen --no-install-project
+      - name: Install the project to system's python
+        run: |
+          UV_PROJECT_ENVIRONMENT=$pythonLocation \
+          uv sync \
+            --python=${{ env.pythonLocation }}/bin/python3 \
+            --all-extras \
+            --dev \
+            --frozen \
+            --no-install-project
 
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
