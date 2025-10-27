@@ -36,7 +36,7 @@ jobs:
           docker run --volume $(pwd):/app --workdir /app --rm ${{ inputs.project_name }} nox -s tests
 
       - name: Upload coverage artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: coverage-reports-${{ github.run_id }}
           path: |
