@@ -22,18 +22,25 @@ jobs:
       checks: write # For trunk to post annotations
       contents: read # For repo checkout
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install uv
-        uses: astral-sh/setup-uv@e92bafb6253dcd438e0484186d7669ea7a8ca1cc  # v6.4.3
+        uses: astral-sh/setup-uv@2ddd2b9cb38ad8efd50337e8ab201519a34c9f24 # v7.1.1
 
       - name: "Set up Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version-file: "pyproject.toml"
 
-      - name: Install the project
-        run: UV_PROJECT_ENVIRONMENT=$pythonLocation uv sync --all-extras --dev --frozen --no-install-project
+      - name: Install the project to system's python
+        run: |
+          UV_PROJECT_ENVIRONMENT=$pythonLocation \
+          uv sync \
+            --python=${{ env.pythonLocation }}/bin/python3 \
+            --all-extras \
+            --dev \
+            --frozen \
+            --no-install-project
 
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
