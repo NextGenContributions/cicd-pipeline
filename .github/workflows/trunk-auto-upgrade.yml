@@ -2,6 +2,9 @@ name: Auto upgrade trunk and its tools
 
 on:
   workflow_call:
+    secrets:
+      BOT_PR_PRIVATE_KEY:
+        required: true
 
 # Define required permissions for the reusable workflow
 permissions:
