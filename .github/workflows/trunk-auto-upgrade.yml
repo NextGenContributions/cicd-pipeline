@@ -14,8 +14,18 @@ jobs:
     name: Upgrade Trunk
     runs-on: ubuntu-latest
     steps:
+      - name: Setup | GitHub App Token
+        uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          app-id: ${{ vars.BOT_PR_APP_ID }}
+          private-key: ${{ secrets.BOT_PR_PRIVATE_KEY }}
+      
       - name: Checkout
         uses: actions/checkout@v7
 
       - name: Trunk Upgrade
         uses: trunk-io/trunk-action/upgrade@v2.0.0
+        with:
+          # GitHub token to allow created PRs to run pull_request workflows
+          github-token: ${{ steps.app-token.outputs.token }}
